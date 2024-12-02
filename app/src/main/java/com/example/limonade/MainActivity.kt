@@ -37,66 +37,62 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun StepUIDesign(modifier: Modifier) {
+fun StepUIDesign(modifier: Modifier = Modifier) {
+    // Variables pour suivre l'état actuel et le nombre de pressions nécessaires
     var currentIndex by remember { mutableStateOf(1) }
-    var qeezetapcount by remember { mutableStateOf(1) }
+    var squeezeTapCount by remember { mutableStateOf(1) }
 
-    var step_text = when(currentIndex){
-        1->R.string.instruction_tree
-        2->R.string.instruction_lemon
-        3->R.string.instruction_lemonade
-        4->R.string.instruction_empty_glass
-        else->R.string.instruction_lemon
+    // Texte et image selon l'état
+    val stepText = when (currentIndex) {
+        1 -> R.string.instruction_tree
+        2 -> R.string.instruction_lemon
+        3 -> R.string.instruction_lemonade
+        4 -> R.string.instruction_empty_glass
+        else -> R.string.instruction_tree
     }
-    var imageresourse = when(currentIndex){
-        1->R.drawable.lemon_tree
-        2->R.drawable.lemon_squeeze
-        3->R.drawable.lemon_drink
-        4->R.drawable.lemon_restart
-        else->R.drawable.lemon_tree
+    val imageResource = when (currentIndex) {
+        1 -> R.drawable.lemon_tree
+        2 -> R.drawable.lemon_squeeze
+        3 -> R.drawable.lemon_drink
+        4 -> R.drawable.lemon_restart
+        else -> R.drawable.lemon_tree
+    }
 
-    }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id= imageresourse),
-
-            modifier = Modifier.wrapContentSize() .background(color = Color(0xFF03DAC5)).clickable {
-                  when(currentIndex){
-                1-> {
-                    qeezetapcount = (1..6).random()
-                    currentIndex += 1
+            painter = painterResource(id = imageResource),
+            contentDescription = stringResource(id = stepText),
+            modifier = Modifier
+                .size(200.dp)
+                .background(color = Color(0xFF03DAC5))
+                .clickable {
+                    when (currentIndex) {
+                        1 -> {
+                            // Choisir un nombre aléatoire pour les pressions nécessaires
+                            squeezeTapCount = (2..5).random()
+                            currentIndex++
+                        }
+                        2 -> {
+                            // Diminuer le compteur ou passer à l'étape suivante
+                            if (squeezeTapCount > 1) {
+                                squeezeTapCount--
+                            } else {
+                                currentIndex++
+                            }
+                        }
+                        3 -> currentIndex++
+                        4 -> currentIndex = 1
+                    }
                 }
-                2->{
-                   if(qeezetapcount==0){
-                       currentIndex += 1
-                   }
-
-                else {
-                    qeezetapcount--
-                }
-                }
-                3->{
-                    currentIndex += 1
-                }
-
-                4-> {
-                    currentIndex=1
-                }
-
-
-                }
-
-
-            },
-                    contentDescription = "1",
         )
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(text = stringResource(id = step_text))
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = stringResource(id = stepText))
     }
 }
 
@@ -104,6 +100,6 @@ fun StepUIDesign(modifier: Modifier) {
 @Composable
 fun LemonadeApp() {
     LimonadeTheme {
-        StepUIDesign(modifier = Modifier.fillMaxSize().wrapContentSize())
+        StepUIDesign(modifier = Modifier.fillMaxSize())
     }
 }
