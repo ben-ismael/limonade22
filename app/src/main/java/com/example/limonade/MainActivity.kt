@@ -11,7 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,8 +39,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun StepUIDesign(modifier: Modifier = Modifier) {
     // Variables pour suivre l'état actuel et le nombre de pressions nécessaires
-    var currentIndex by remember { mutableStateOf(1) }
-    var squeezeTapCount by remember { mutableStateOf(1) }
+    var currentIndex by remember { mutableIntStateOf(1) }
+    var squeezeTapCount by remember { mutableIntStateOf(1) }
 
     // Texte et image selon l'état
     val stepText = when (currentIndex) {
