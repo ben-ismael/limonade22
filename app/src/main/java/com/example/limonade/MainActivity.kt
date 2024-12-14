@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.limonade.ui.theme.LimonadeTheme
@@ -57,6 +58,16 @@ fun StepUIDesign(modifier: Modifier = Modifier) {
         4 -> R.drawable.lemon_restart
         else -> R.drawable.lemon_tree
     }
+    Text(
+        text = stringResource(R.string.app_name), modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Color.Yellow)
+            .padding(8.dp), // Ajout de marges pour une meilleure visibilité
+        color = Color.Black,
+        textAlign = TextAlign.Center
+    )
+
+    Spacer(modifier = Modifier.height(100.dp))
 
     Column(
         modifier = modifier
@@ -65,6 +76,9 @@ fun StepUIDesign(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+
+        // Image avec comportement de clic
         Image(
             painter = painterResource(id = imageResource),
             contentDescription = stringResource(id = stepText),
@@ -91,7 +105,10 @@ fun StepUIDesign(modifier: Modifier = Modifier) {
                     }
                 }
         )
+
         Spacer(modifier = Modifier.height(16.dp))
+
+        // Texte d'instruction
         Text(text = stringResource(id = stepText))
     }
 }
